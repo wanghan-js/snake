@@ -98,7 +98,7 @@ const generateFood = (snake) => {
         }
     }
     const snakeCells = snake.getCells();
-    const diffCells = boardCells.filter(c => !snakeCells.find(cell => cell.isSame(c)));
+    const diffCells = boardCells.filter(c => !snakeCells.find(cell => cell.isSamePosition(c)));
     const index = randomIndex(diffCells.length);
     const cell = diffCells[index];
     return cell;
