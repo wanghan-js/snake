@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "noImplicitAny": true,
+        "removeComments": true,
+        "outDir": "./out",
+        "target": "es6",
+        "lib": [
+            "es6",
+            "es7",
+            "dom",
+            "dom.iterable",
+        ],
+    },
+}

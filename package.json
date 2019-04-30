@@ -1,0 +1,5 @@
+{
+    "scripts": {
+        "go": "tsc && webpack"
+    }
+}

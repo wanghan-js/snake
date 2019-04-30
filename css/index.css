@@ -1,0 +1,22 @@
+.app {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid #ccc;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.cell {
+    background: #eee;
+    transition: all 0.1s;
+}
+
+.cell.active {
+    background: #782;
+}
+
+.cell.food {
+    background: #832;
+}
