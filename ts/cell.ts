@@ -4,8 +4,10 @@ export class Cell {
     constructor(
         private x: number,
         private y: number,
+        private size: number,
         private type: CellType,
     ) {}
+
 
     getX(): number {
         return this.x
@@ -13,6 +15,10 @@ export class Cell {
 
     getY(): number {
         return this.y
+    }
+
+    getSize(): number {
+        return this.size
     }
 
     getType(): CellType {
@@ -25,6 +31,10 @@ export class Cell {
 
     setY(y: number) {
         this.y = y
+    }
+
+    setSize(size: number) {
+        this.size = size
     }
 
     setType(type: CellType) {
