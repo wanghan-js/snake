@@ -93,29 +93,53 @@ export class Game {
             if (e.which === Direction.UP) {
                 if (direction === Direction.LEFT || direction === Direction.RIGHT) {
                     this.snake.turnUp()
-                    this.snake.move()
                     this.clearSnake()
+                    this.snake.move()
+                    if (this.snake.meetingFood(this.food)) {
+                        this.clearFood()
+                        this.snake.grow()
+                        this.makeFood()
+                        this.drawFood()
+                    }
                     this.drawSnake()
                 }
             } else if (e.which === Direction.RIGHT) {
                 if (direction === Direction.UP || direction === Direction.DOWN) {
                     this.snake.turnRight()
-                    this.snake.move()
                     this.clearSnake()
+                    this.snake.move()
+                    if (this.snake.meetingFood(this.food)) {
+                        this.clearFood()
+                        this.snake.grow()
+                        this.makeFood()
+                        this.drawFood()
+                    }
                     this.drawSnake()
                 }
             } else if (e.which === Direction.DOWN) {
                 if (direction === Direction.LEFT || direction === Direction.RIGHT) {
                     this.snake.turnDown()
-                    this.snake.move()
                     this.clearSnake()
+                    this.snake.move()
+                    if (this.snake.meetingFood(this.food)) {
+                        this.clearFood()
+                        this.snake.grow()
+                        this.makeFood()
+                        this.drawFood()
+                    }
                     this.drawSnake()
                 }
             } else if (e.which === Direction.LEFT) {
                 if (direction === Direction.UP || direction === Direction.DOWN) {
                     this.snake.turnLeft()
-                    this.snake.move()
                     this.clearSnake()
+                    this.snake.move()
+                    if (this.snake.meetingFood(this.food)) {
+                        this.clearFood()
+                        this.snake.grow()
+                        this.makeFood()
+                        this.drawFood()
+                    }
                     this.drawSnake()
                 }
             }
@@ -125,15 +149,14 @@ export class Game {
     run() {
         this.running = true
         this.timer = setInterval(() => {
+            this.clearSnake()
+            this.snake.move()
             if (this.snake.meetingFood(this.food)) {
-                this.snake.grow()
                 this.clearFood()
+                this.snake.grow()
                 this.makeFood()
                 this.drawFood()
-            } else {
-                this.snake.move()
             }
-            this.clearSnake()
             this.drawSnake()
         }, 200)
     }

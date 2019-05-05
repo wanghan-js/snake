@@ -5,6 +5,7 @@ import { Cells } from "./cells";
 export class Snake {
     private cells: Cell[] = []
     private direction: Direction = Direction.RIGHT
+    private tail: Cell
 
     constructor(
         private initialSize: number,
@@ -106,8 +107,13 @@ export class Snake {
         return this.cells[index]
     }
 
-    // 蛇变长的思路：在蛇头的前面增加一个 cell
+    // 蛇变长的思路：把删除的 tail 加上来
     grow() {
+        this.cells.push(this.tail)
+    }
+
+    // 蛇移动的思路：先让蛇变长，再在蛇尾处减少一个 cell
+    move() {
         const x = this.headX
         const y = this.headY
         if (this.direction === Direction.UP) {
@@ -119,12 +125,7 @@ export class Snake {
         } else if (this.direction === Direction.LEFT) {
             this.addCell(x - 1, y)
         }
-    }
-
-    // 蛇移动的思路：先让蛇变长，再在蛇尾处减少一个 cell
-    move() {
-        this.grow()
-        this.cells.pop()
+        this.tail = this.cells.pop()
     }
 
     // 蛇头是否吃到食物
