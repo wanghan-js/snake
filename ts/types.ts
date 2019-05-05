@@ -11,3 +11,7 @@ export enum CellType {
     SNAKE,
     FOOD,
 }
+
+export enum Key {
+    SPACE = 32,
+}

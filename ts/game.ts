@@ -2,7 +2,7 @@ import { Board } from "./board";
 import { Snake } from "./snake";
 import { Cell } from "./cell";
 import { pick } from "./helpers";
-import { Direction } from "./types";
+import { Direction, CellType, Key } from "./types";
 
 export class Game {
     private running: boolean = false
@@ -62,8 +62,8 @@ export class Game {
         // 取差集
         const diffCells: Cell[] = boardCells.filter(c => !snakeCells.find(cell => cell.isSamePosition(c)))
         // 在得到的集合中随机选一个 cell 返回，当作 food
-        const food: Cell = pick(diffCells)
-        this.food = food
+        const cell: Cell = pick(diffCells)
+        this.food = new Cell(cell.getX(), cell.getY(), cell.getSize(), CellType.FOOD)
     }
 
     drawFood() {
@@ -93,71 +93,53 @@ export class Game {
             if (e.which === Direction.UP) {
                 if (direction === Direction.LEFT || direction === Direction.RIGHT) {
                     this.snake.turnUp()
-                    this.clearSnake()
-                    this.snake.move()
-                    if (this.snake.meetingFood(this.food)) {
-                        this.clearFood()
-                        this.snake.grow()
-                        this.makeFood()
-                        this.drawFood()
-                    }
-                    this.drawSnake()
+                    this.refreshScene()
                 }
             } else if (e.which === Direction.RIGHT) {
                 if (direction === Direction.UP || direction === Direction.DOWN) {
                     this.snake.turnRight()
-                    this.clearSnake()
-                    this.snake.move()
-                    if (this.snake.meetingFood(this.food)) {
-                        this.clearFood()
-                        this.snake.grow()
-                        this.makeFood()
-                        this.drawFood()
-                    }
-                    this.drawSnake()
+                    this.refreshScene()
                 }
             } else if (e.which === Direction.DOWN) {
                 if (direction === Direction.LEFT || direction === Direction.RIGHT) {
                     this.snake.turnDown()
-                    this.clearSnake()
-                    this.snake.move()
-                    if (this.snake.meetingFood(this.food)) {
-                        this.clearFood()
-                        this.snake.grow()
-                        this.makeFood()
-                        this.drawFood()
-                    }
-                    this.drawSnake()
+                    this.refreshScene()
                 }
             } else if (e.which === Direction.LEFT) {
                 if (direction === Direction.UP || direction === Direction.DOWN) {
                     this.snake.turnLeft()
-                    this.clearSnake()
-                    this.snake.move()
-                    if (this.snake.meetingFood(this.food)) {
-                        this.clearFood()
-                        this.snake.grow()
-                        this.makeFood()
-                        this.drawFood()
-                    }
-                    this.drawSnake()
+                    this.refreshScene()
+                }
+            } else if (e.which === Key.SPACE) {
+                if (this.running) {
+                    this.stop()
+                } else {
+                    this.run()
                 }
             }
         })
     }
 
+    refreshScene() {
+        if (this.snake.colliding(this.board.rim) || this.snake.collidingSelf()) {
+            alert('游戏结束')
+            this.stop()
+        }
+        this.clearSnake()
+        this.snake.move()
+        if (this.snake.meetingFood(this.food)) {
+            this.clearFood()
+            this.snake.grow()
+            this.makeFood()
+            this.drawFood()
+        }
+        this.drawSnake()
+    }
+
     run() {
         this.running = true
         this.timer = setInterval(() => {
-            this.clearSnake()
-            this.snake.move()
-            if (this.snake.meetingFood(this.food)) {
-                this.clearFood()
-                this.snake.grow()
-                this.makeFood()
-                this.drawFood()
-            }
-            this.drawSnake()
+            this.refreshScene()
         }, 200)
     }
 
