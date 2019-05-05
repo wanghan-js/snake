@@ -7,32 +7,32 @@ export class Snake {
     private direction: Direction = Direction.RIGHT
 
     constructor(
-        private size: number,
+        private initialSize: number,
         private cellSize: number,
-        private headX: number,
-        private headY: number,
+        private initialHeadX: number,
+        private initialHeadY: number,
     ) {
-        for (let i = 0; i < size; i++) {
-            const cell = new Cell(headX - i, headY, cellSize, CellType.SNAKE)
+        for (let i = 0; i < initialSize; i++) {
+            const cell = new Cell(initialHeadX - i, initialHeadY, cellSize, CellType.SNAKE)
             this.cells.push(cell)
         }
     }
 
 
-    getSize() {
-        return this.size
+    getInitialSize() {
+        return this.initialSize
     }
 
     getCellSize() {
         return this.cellSize
     }
 
-    getHeadX() {
-        return this.headX
+    getInitialHeadX() {
+        return this.initialHeadX
     }
 
-    getHeadY() {
-        return this.headY
+    getInitialHeadY() {
+        return this.initialHeadY
     }
 
     getCells() {
@@ -43,20 +43,20 @@ export class Snake {
         return this.direction
     }
 
-    setSize(size: number) {
-        this.size = size
+    setInitialSize(initialSize: number) {
+        this.initialSize = initialSize
     }
 
     setCellSize(cellSize: number) {
         this.cellSize = cellSize
     }
 
-    setHeadX(headX: number) {
-        this.headX = headX
+    setInitialHeadX(initialHeadX: number) {
+        this.initialHeadX = initialHeadX
     }
 
-    setHeadY(headY: number) {
-        this.headY = headY
+    setInitialHeadY(initialHeadY: number) {
+        this.initialHeadY = initialHeadY
     }
 
     setCells(cells: Cell[]) {
@@ -68,8 +68,20 @@ export class Snake {
     }
 
 
+    get size(): number {
+        return this.cells.length
+    }
+
     private get head(): Cell {
         return this.cells[0]
+    }
+
+    private get headX(): number {
+        return this.head.getX()
+    }
+
+    private get headY(): number {
+        return this.head.getY()
     }
 
     private get body(): Cell[] {
@@ -88,10 +100,6 @@ export class Snake {
     // 在蛇头增加一个 cell
     private addCell(x: number, y: number) {
         this.cells.unshift(new Cell(x, y, this.cellSize, CellType.SNAKE))
-        // 更新相关 fields
-        this.size++
-        this.headX = this.head.getX()
-        this.headY = this.head.getY()
     }
 
     getCell(index: number): Cell {
@@ -117,8 +125,6 @@ export class Snake {
     move() {
         this.grow()
         this.cells.pop()
-        // 更新相关 fields
-        this.size--
     }
 
     // 蛇头是否吃到食物

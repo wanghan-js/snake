@@ -43,7 +43,7 @@ export class Game {
     }
 
     drawSnake() {
-        for (let i = 0; i < this.snake.getSize(); i++) {
+        for (let i = 0; i < this.snake.size; i++) {
             const snakeCell = this.snake.getCell(i)
             const cellX = snakeCell.getX()
             const cellY = snakeCell.getY()
