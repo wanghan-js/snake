@@ -8,6 +8,8 @@ export class Game {
     private running: boolean = false
     private timer: number
     private food: Cell
+    private foodCount: number = 0
+    private speed: number = 200
 
     constructor(
         private board: Board,
@@ -128,6 +130,8 @@ export class Game {
         this.clearSnake()
         this.snake.move()
         if (this.snake.meetingFood(this.food)) {
+            this.foodCount++
+            this.setSpeed()
             this.clearFood()
             this.snake.grow()
             this.makeFood()
@@ -136,11 +140,22 @@ export class Game {
         this.drawSnake()
     }
 
+    setSpeed() {
+        if (this.foodCount % 5 === 0) {
+            this.speed -= 20
+            if (this.speed <= 20) {
+                this.speed = 20
+            }
+            this.stop()
+            this.run()
+        }
+    }
+
     run() {
         this.running = true
         this.timer = setInterval(() => {
             this.refreshScene()
-        }, 200)
+        }, this.speed)
     }
 
     stop() {
